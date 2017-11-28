@@ -12,9 +12,7 @@ class AuthenticationController < ApplicationController
   end
 
   def register
-    puts register_parameters.inspect
-    puts params.inspect
-    render nothing: true, status: NotFound unless User.create register_parameters
+    render nothing: true, status: :bad_request unless User.create register_parameters
   end
 
   private
