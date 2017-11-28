@@ -14,6 +14,8 @@ export class Quizz extends React.Component {
         super(props);
         this.state = {
             isLoading: true,
+            hasQuizz: false,
+            hasQuestions: false,
         };
         this.score = 0;
         this.getQuizz();
@@ -33,34 +35,65 @@ export class Quizz extends React.Component {
             let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
                 this.setState ({
                     isLoading: false,
+                    hasQuizz: true,
                     dataSource: ds.cloneWithRows(responseJson)
                 });
             }).catch((error) => {
                 console.error("Test : " + error);
                 this.setState ({
                     isLoading: false,
+                    hasQuizz: true,
                     dataSource: 'titi'
                 });
             });
     }
 
-    render() {
-        if (this.state.isLoading) {
-            return (
-                <View style={{flex: 1, paddingTop: 20}}>
-                    <ActivityIndicator />
-                </View>
-            );
-        }
+    renderWaiting()
+    {
+        return (
+            <View style={{flex: 1, paddingTop: '5%', margin: 'auto'}}>
+                <ActivityIndicator />
+            </View>
+        );
+    }
 
+    renderQuizz()
+    {
         return (
             <ScrollView>
+                <Text style={styles.Questions}>Quizz Time !</Text>
                 <ListView
                     dataSource={this.state.dataSource}
                     renderRow={(rowData) => <Text>{rowData.id}</Text>}
                 />
             </ScrollView>
         );
+    }
+
+    renderQuestion()
+    {
+        return (
+            <ScrollView>
+                <Text style={styles.Questions}>Example of Question</Text>
+                <ListView
+                    dataSource={this.state.dataSource}
+                    renderRow={(rowData) => <Button/>}
+                />
+            </ScrollView>
+        )
+    }
+
+    render() {
+        if (this.state.isLoading)
+            return this.renderWaiting();
+        else if (this.state.hasQuizz)
+            return this.renderQuizz();
+        else if (this.state.hasQuestions)
+            return this.renderQuestion();
+        else
+            return (
+                <Text style={styles.Questions}>Sorry it's broken :'(</Text>
+            );
     }
 }
 
