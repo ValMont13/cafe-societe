@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 20171128123422) do
 
   create_table "responses", force: :cascade do |t|
     t.string "value"
-    t.boolean "valid"
+    t.boolean "solution"
     t.integer "question_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

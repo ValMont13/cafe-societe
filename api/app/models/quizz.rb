@@ -1,4 +1,4 @@
 class Quizz < ApplicationRecord
   belongs_to :edition
-  has_many :response
+  has_many :questions
 end
