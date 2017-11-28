@@ -9,7 +9,7 @@ class AnswerController < ApplicationController
         question = Question.find client_answer[:question]
         response = Response.find client_answer[:answer]
         unless quizz.questions.include? question and question.responses.include? response
-          render nothing: true, status: BadRequest
+          render nothing: true, status: :bad_request
           return
         end
         answer = Answer.new
@@ -17,7 +17,7 @@ class AnswerController < ApplicationController
         answer.question = question
         answers.push answer
       rescue
-        render nothing: true, status: 400
+        render nothing: true, status: :bad_request
         return
       end
     end

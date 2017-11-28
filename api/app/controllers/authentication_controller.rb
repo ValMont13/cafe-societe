@@ -12,7 +12,7 @@ class AuthenticationController < ApplicationController
   end
 
   def register
-    render nothing: true, status: 400 unless User.create register_parameters
+    render nothing: true, status: :bad_request unless User.create register_parameters
   end
 
   private

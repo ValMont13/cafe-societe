@@ -10,6 +10,8 @@ Rails.application.routes.draw do
 
       post 'quizz/:id/answer', to: 'answer#answer'
 
+      post 'edition', to: 'edition#create'
+
       post 'edition/:edition_id/quizz/:quizz_id/question/:question_id/response', to: 'response#create'
 
       post 'edition/:edition_id/quizz/:quizz_id/question', to: 'question#create'

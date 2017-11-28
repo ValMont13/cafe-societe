@@ -5,9 +5,9 @@ class QuestionController < ApplicationController
     question = Question.new(question_params)
     question.quizz = quizz
     if question.save
-      render json: question, status: 201
+      render json: question, status: :created
     else
-      render nothing: true, status: 400
+      render nothing: true, status: :bad_request
     end
   end
 

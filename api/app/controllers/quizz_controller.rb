@@ -21,9 +21,9 @@ class QuizzController < ApplicationController
     edition = Edition.find(params[:edition_id])
     quizz = Quizz.create(name: params[:name], edition: edition)
     if quizz.persisted?
-      render json: quizz, status: 201
+      render json: quizz, status: :created
     else
-      render nothing: true, status: 400
+      render nothing: true, status: :bad_request
     end
   end
 end
