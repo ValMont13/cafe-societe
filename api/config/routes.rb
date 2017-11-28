@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   scope 'api' do
     scope 'v1' do
       post 'authenticate', to: 'authentication#authenticate'
+      post 'register', to: 'authentication#register'
 
       get 'quizz/:id', to: 'quizz#get'
       get 'quizz', to: 'quizz#index'
