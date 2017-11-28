@@ -10,7 +10,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171127154230) do
+ActiveRecord::Schema.define(version: 20171128123422) do
+
+  create_table "editions", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.string "content"
+    t.integer "quizz_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["quizz_id"], name: "index_questions_on_quizz_id"
+  end
+
+  create_table "quizzs", force: :cascade do |t|
+    t.string "name"
+    t.integer "edition_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["edition_id"], name: "index_quizzs_on_edition_id"
+  end
+
+  create_table "responses", force: :cascade do |t|
+    t.string "value"
+    t.boolean "valid"
+    t.integer "question_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_responses_on_question_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "first_name"
