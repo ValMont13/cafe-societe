@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Text, ScrollView, ActivityIndicator, ListView } from 'react-native';
+import { View, StyleSheet, Text, ScrollView, ActivityIndicator, ListView, Button } from 'react-native';
 import Auth from './Auth'
 
 export class Quizz extends React.Component {
@@ -18,6 +18,7 @@ export class Quizz extends React.Component {
             hasQuestions: false,
         };
         this.score = 0;
+        this.questions = null;
         this.getQuizz();
     }
 
@@ -48,6 +49,35 @@ export class Quizz extends React.Component {
             });
     }
 
+    async getQuestions(quizzId)
+    {
+        return fetch(Auth.url + "/api/v1/quizz/" + quizzId, {
+            headers: {
+                Authorization: Auth.token
+            },
+            method: 'GET',
+            mode: 'cors',
+            cache: 'default'
+        }).then((response) => response.json())
+            .then((responseJson) => {
+                let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+                this.setState ({
+                    isLoading: false,
+                    hasQuizz: false,
+                    hasQuestions: true,
+                    dataSource: ds.cloneWithRows(responseJson.questions)
+                });
+            }).catch((error) => {
+                console.error("Test : " + error);
+                this.setState ({
+                    isLoading: false,
+                    hasQuizz: false,
+                    hasQuestions: true,
+                    dataSource: 'titi'
+                });
+            });
+    }
+
     renderWaiting()
     {
         return (
@@ -61,10 +91,17 @@ export class Quizz extends React.Component {
     {
         return (
             <ScrollView>
-                <Text style={styles.Questions}>Quizz Time !</Text>
                 <ListView
+                    style={styles.List}
                     dataSource={this.state.dataSource}
-                    renderRow={(rowData) => <Text>{rowData.id}</Text>}
+                    renderRow={(rowData) =>
+                        <View>
+                            <Text style={styles.Row}>
+                                <Text style={styles.Id}>{rowData.edition_id}</Text>
+                            </Text>
+                            <Button style={styles.customButton} onPress={() => this.getQuestions(rowData.id)} style={styles.Questions} title={rowData.name}/>
+                        </View>
+                    }
                 />
             </ScrollView>
         );
@@ -74,10 +111,14 @@ export class Quizz extends React.Component {
     {
         return (
             <ScrollView>
-                <Text style={styles.Questions}>Example of Question</Text>
                 <ListView
                     dataSource={this.state.dataSource}
-                    renderRow={(rowData) => <Button/>}
+                    renderRow={(rowData) =>
+                        <View>
+                            <Text style={styles.Questions}>{rowData.content}</Text>
+                                <Button title={rowData.responses[0].value}/>
+                        </View>
+                    }
                 />
             </ScrollView>
         )
@@ -99,8 +140,24 @@ export class Quizz extends React.Component {
 
 const styles = StyleSheet.create({
     Questions: {
-        fontSize: 30,
+        fontSize: 25,
         textAlign: 'center',
+        marginTop: '5%',
+    },
+    Row: {
+        backgroundColor: '#fafafa',
+        padding: '2%',
+    },
+    Id: {
+        fontSize: 20,
+    },
+    List: {
+        marginTop: '5%',
+    },
+    customButton: {
+        padding: '10%",'
+    },
+    Answers: {
         marginTop: '5%',
     }
 });
