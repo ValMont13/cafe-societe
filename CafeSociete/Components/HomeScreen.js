@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, ActivityIndicator } from 'react-native';
+import Auth from './Auth';
 
 export class HomeScreen extends React.Component {
     static navigationOptions = {
@@ -8,14 +9,57 @@ export class HomeScreen extends React.Component {
             marginTop: Expo.Constants.statusBarHeight,
         },
     };
+
+    constructor (props)
+    {
+        super(props);
+        this.state = {
+            isLoading: true
+        };
+        Auth.token = this.getToken();
+    }
+
+    async getToken()
+    {
+        return fetch(Auth.url + "/api/v1/authenticate", {
+            method: 'POST',
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', },
+            body: JSON.stringify({ email: 'toto@toto.fr', password: 'titi', }),
+            mode: 'cors',
+            cache: 'default'
+        }).then((response) => response.json())
+            .then((responseJson) => {
+            this.setState ({
+                isLoading: false,
+            });
+            Auth.token = responseJson.auth_token;
+        }).catch((error) => {
+            console.error("Test : " + error);
+            this.setState ({
+                isLoading: false,
+            });
+        });
+    }
+
     render() {
         const { navigate } = this.props.navigation;
+
+        if (this.state.isLoading) {
+            return (
+                <View style={{flex: 1, paddingTop: '5%', margin: 'auto'}}>
+                    <ActivityIndicator />
+                </View>
+            );
+        }
+
         return (
-            <View style={styles.customButton}>
-                <Button
-                    onPress={() => navigate('Quizz')}
-                    title="Lancer le Quizz"
-                />
+            <View style={styles.container}>
+                <View style={styles.customButton}>
+                    <Button
+                        onPress={() => navigate('Quizz')}
+                        title="Lancer le Quizz"
+                    />
+                </View>
             </View>
         );
     }
@@ -29,8 +73,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     customButton: {
-        position: 'absolute',
-        top: '40%',
-        left: '30%'
+        margin: 'auto'
     }
 });
