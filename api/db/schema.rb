@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171128123422) do
+ActiveRecord::Schema.define(version: 20171128150508) do
+
+  create_table "answers", force: :cascade do |t|
+    t.integer "quizz_answers_id"
+    t.integer "response_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["quizz_answers_id"], name: "index_answers_on_quizz_answers_id"
+    t.index ["response_id"], name: "index_answers_on_response_id"
+  end
 
   create_table "editions", force: :cascade do |t|
     t.string "name"
@@ -24,6 +33,16 @@ ActiveRecord::Schema.define(version: 20171128123422) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["quizz_id"], name: "index_questions_on_quizz_id"
+  end
+
+  create_table "quizz_answers", force: :cascade do |t|
+    t.integer "quizz_id"
+    t.integer "user_id"
+    t.integer "score"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["quizz_id"], name: "index_quizz_answers_on_quizz_id"
+    t.index ["user_id"], name: "index_quizz_answers_on_user_id"
   end
 
   create_table "quizzs", force: :cascade do |t|
