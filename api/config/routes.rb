@@ -6,6 +6,13 @@ Rails.application.routes.draw do
 
       get 'quizz/:id', to: 'quizz#get'
       get 'quizz', to: 'quizz#index'
+      post 'edition/:edition_id/quizz', to: 'quizz#create'
+
+      post 'quizz/:id/answer', to: 'answer#answer'
+
+      post 'edition/:edition_id/quizz/:quizz_id/question/:question_id/response', to: 'response#create'
+
+      post 'edition/:edition_id/quizz/:quizz_id/question', to: 'question#create'
     end
   end
 
