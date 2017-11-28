@@ -1,0 +1,183 @@
+{
+	"info": {
+		"name": "Cafe societe",
+		"_postman_id": "269f2458-cfb6-cd73-f200-30e90472f4e6",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"first_name\": \"toto\",\n\"last_name\": \"titi\",\n\"email\": \"toto@toto.fr\",\n\"password\": \"titi\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:3000/api/v1/register",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"register"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "authenticate",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\":\"example@mail.com\",\n\t\"password\":\"123123123\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:3000/authenticate",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						"authenticate"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "List Quizz",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1MTE4ODcyOTl9.kydDbakeRTKU8vtINd5eIpkf28M438CVd9g0O-_mBP4"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://127.0.0.1:3000/api/v1/quizz",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"quizz"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get quizz",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1MTE4ODcyOTl9.kydDbakeRTKU8vtINd5eIpkf28M438CVd9g0O-_mBP4"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://127.0.0.1:3000/api/v1/quizz/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"quizz",
+						"1"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Answer quizz",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1MTE4ODcyOTl9.kydDbakeRTKU8vtINd5eIpkf28M438CVd9g0O-_mBP4"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"answers\": [\n\t\t{\n\t\t\t\"quesion\": \"1\",\n\t\t\t\"answer\": \"1\"\n\t\t},\n\t\t{\n\t\t\t\"question\": \"2\",\n\t\t\t\"answer\": \"4\"\n\t\t}\n\t]\n}\n"
+				},
+				"url": {
+					"raw": "https://127.0.0.1:3000/api/v1/quizz/1/answer",
+					"protocol": "https",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"quizz",
+						"1",
+						"answer"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
