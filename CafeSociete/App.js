@@ -1,21 +1,15 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StackNavigator } from 'react-navigation';
+import { HomeScreen } from './Components/HomeScreen';
+import { Quizz } from './Components/Quizz';
+
+const SimpleApp = StackNavigator({
+    Home: { screen: HomeScreen },
+    Quizz: { screen: Quizz }
+});
 
 export default class App extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-          <Text>Hello Wold !</Text>
-      </View>
-    );
-  }
+    render() {
+        return <SimpleApp />;
+    }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
