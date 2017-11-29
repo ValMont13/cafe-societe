@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Button, ActivityIndicator, TouchableOpacity, Text } from 'react-native';
 import Auth from './Auth';
 
 export class HomeScreen extends React.Component {
@@ -16,12 +16,13 @@ export class HomeScreen extends React.Component {
         this.state = {
             isLoading: true
         };
-        Auth.token = this.getToken();
+        if (Auth.token == null)
+            Auth.token = this.getToken();
     }
 
     async getToken()
     {
-        return fetch(Auth.url + "/api/v1/authenticate", {
+        return fetch(Auth.url + Auth.LOGIN_URL, {
             method: 'POST',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', },
             body: JSON.stringify({ email: 'toto@toto.fr', password: 'titi', }),
@@ -60,6 +61,9 @@ export class HomeScreen extends React.Component {
                         title="Lancer le Quizz"
                     />
                 </View>
+                <TouchableOpacity style={styles.customTouch} onPress={() => navigate('Search')}>
+                    <Text style={{fontSize: 20}}>Recherche</Text>
+                </TouchableOpacity>
             </View>
         );
     }
@@ -71,6 +75,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    customTouch: {
+      marginTop: '10%',
     },
     customButton: {
         margin: 'auto'

@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, StyleSheet, Text, ScrollView, ActivityIndicator, ListView, Button } from 'react-native';
+import { NavigationActions } from 'react-navigation'
+import { View, StyleSheet, Text, ScrollView, ActivityIndicator, ListView, Button, Alert } from 'react-native';
 import Auth from './Auth'
 
 export class Quizz extends React.Component {
@@ -19,14 +20,16 @@ export class Quizz extends React.Component {
             end: false,
         };
         this.score = 0;
-        this.questionId = 0;
+        this.questionIdx = 0;
+        this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.questions = null;
+        this.dsAnswer = null;
         this.getQuizz();
     }
 
     async getQuizz()
     {
-        return fetch(Auth.url + "/api/v1/quizz", {
+        return fetch(Auth.url + Auth.QUIZZ_URL, {
             headers: {
               Authorization: Auth.token
             },
@@ -35,11 +38,10 @@ export class Quizz extends React.Component {
             cache: 'default'
         }).then((response) => response.json())
             .then((responseJson) => {
-            let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
                 this.setState ({
                     isLoading: false,
                     hasQuizz: true,
-                    dataSource: ds.cloneWithRows(responseJson)
+                    dataSource: this.ds.cloneWithRows(responseJson)
                 });
             }).catch((error) => {
                 console.error("Test : " + error);
@@ -53,7 +55,7 @@ export class Quizz extends React.Component {
 
     async getQuestions(quizzId)
     {
-        return fetch(Auth.url + "/api/v1/quizz/" + quizzId, {
+        return fetch(Auth.url + Auth.QUIZZ_URL + "/" + quizzId, {
             headers: {
                 Authorization: Auth.token
             },
@@ -62,7 +64,10 @@ export class Quizz extends React.Component {
             cache: 'default'
         }).then((response) => response.json())
             .then((responseJson) => {
+                let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
                 this.questions = responseJson.questions;
+                this.dsAnswer = this.getResponses(this.questions[this.questionIdx].responses);
                 this.setState ({
                     hasQuizz: false,
                     hasQuestions: true,
@@ -71,9 +76,38 @@ export class Quizz extends React.Component {
                 console.error("Test : " + error);
                 this.setState ({
                     hasQuizz: false,
-                    hasQuestions: true,
+                    hasQuestions: false,
                     dataSource: 'titi'
                 });
+            });
+    }
+
+    getResponses(data)
+    {
+        return this.ds.cloneWithRows(data);
+    }
+
+    nextQuestion(data)
+    {
+        if (data.solution) {
+            this.score += 1;
+            Alert.alert( 'Good job !', this.questions[this.questionIdx].description, [ {text: 'OK', onPress: () => console.log('OK Pressed')}, ], { cancelable: false } );
+        }
+        else
+            Alert.alert( 'Bad answer :/', this.questions[this.questionIdx].description, [ {text: 'OK', onPress: () => console.log('OK Pressed')}, ], { cancelable: false } );
+        if (this.questionIdx + 1 < this.questions.length) {
+            this.questionIdx += 1;
+            this.dsAnswer = this.getResponses(this.questions[this.questionIdx].responses);
+            this.setState ({
+                hasQuestions: true,
+            })
+        }
+        else
+            this.setState ({
+                isLoading: false,
+                hasQuizz: false,
+                hasQuestions: false,
+                end: true,
             });
     }
 
@@ -108,70 +142,33 @@ export class Quizz extends React.Component {
 
     renderEnd()
     {
-        const { navigate } = this.props.navigation;
-
         return (
           <View style={styles.container}>
               <Text style={styles.Questions}>End of the Quizz !</Text>
-              <Text>Score : {this.score}</Text>
-              <Button title='Retour' onPress={() => navigate('Home')}/>
+              <View style={styles.Score}>
+                <Text style={styles.ScoreTxt}>Score : {(this.score / this.questions.length) * 100}%</Text>
+              </View>
+              <View style={styles.EndButton}>
+                 <Button title='Retour' onPress={() => this.props.navigation.dispatch(NavigationActions.back())}/>
+              </View>
           </View>
         );
     }
-
-    nextQuestion(data)
-    {
-        if (data.solution)
-            this.score += 1;
-        if (this.questionId < this.questions.length)
-            this.questionId += 1;
-        else
-            this.setState ({
-                isLoading: false,
-                hasQuizz: false,
-                hasQuestions: false,
-                end: true,
-            });
-    }
-
-    /*    <ListView
-        dataSource={new ListView.DataSource(
-            {rowHasChanged: (r1, r2) => r1 !== r2}
-                .cloneWithRows(this.questions)
-        )}
-        renderRow={(rowData) =>
-            <View>
-                <Text style={styles.Questions}>{rowData.content}</Text>
-                <ListView
-                    dataSource={new ListView.DataSource(
-                        {rowHasChanged: (r1, r2) => r1 !== r2}
-                            .cloneWithRows(this.questions[this.questionId].responses)
-                    )}
-                    renderRow={(rowData) =>
-                        <View style={styles.Answers}>
-                            <Button title={rowData.value} onPress={() => this.nextQuestion(rowData)}/>
-                        </View>
-                    }
-                />
-            </View>
-        }
-    />*/
 
     renderQuestion()
     {
         return (
             <ScrollView style={styles.container}>
-                <Text style={styles.Questions}>Example of Question</Text>
+                <Text style={styles.Questions}>{this.questions[this.questionIdx].content}</Text>
                 <View style={styles.answerContainer}>
-                    <View style={styles.Answers}>
-                        <Button title="Reponse 1" onPress={() => console.log("Test")}/>
-                    </View>
-                    <View style={styles.Answers}>
-                        <Button title="Reponse 2" onPress={() => console.log("Test")}/>
-                    </View>
-                    <View style={styles.Answers}>
-                        <Button title="Reponse 3" onPress={() => console.log("Test")}/>
-                    </View>
+                    <ListView
+                        dataSource={this.dsAnswer}
+                        renderRow={(rowData) =>
+                            <View style={styles.Answers}>
+                                <Button title={rowData.value} onPress={() => this.nextQuestion(rowData)}/>
+                            </View>
+                        }
+                    />
                 </View>
             </ScrollView>
         );
@@ -214,12 +211,24 @@ const styles = StyleSheet.create({
         marginTop: '5%',
     },
     customButton: {
-        padding: '10%",'
+        padding: '10%',
     },
     Answers: {
         margin: '6%',
     },
     answerContainer: {
         marginTop: '10%',
+    },
+    Score: {
+        marginTop: '5%',
+        marginBottom: '5%',
+    },
+    ScoreTxt: {
+        fontSize: 30,
+        textAlign: 'center',
+    },
+    EndButton:  {
+        width: '100%',
+        height: '100%',
     }
 });
