@@ -55,14 +55,14 @@ export class HomeScreen extends React.Component {
 
         return (
             <View style={styles.container}>
-                <View style={styles.customButton}>
-                    <Button
-                        onPress={() => navigate('Quizz')}
-                        title="Lancer le Quizz"
-                    />
-                </View>
-                <TouchableOpacity style={styles.customTouch} onPress={() => navigate('Search')}>
-                    <Text style={{fontSize: 20}}>Recherche</Text>
+                <TouchableOpacity activeOpacity={0.8} style={styles.customTouch} onPress={() => this._onPress()}>
+                    <Text style={styles.customTouchText}>Découvrir</Text>
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.8} style={styles.customTouch} onPress={() => navigate('Search')}>
+                    <Text style={styles.customTouchText}>Recherche</Text>
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.8} style={styles.customTouch} onPress={() => navigate('Quizz')}>
+                    <Text style={styles.customTouchText}>Quizz</Text>
                 </TouchableOpacity>
             </View>
         );
@@ -77,7 +77,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     customTouch: {
-      marginTop: '10%',
+        backgroundColor: '#232e5d',
+        width: '70%',
+        marginTop: '10%',
+        paddingTop: '5%',
+        paddingBottom: '5%',
+    },
+    customTouchText: {
+        textAlign: 'center',
+        fontSize: 20,
+        color: 'white',
     },
     customButton: {
         margin: 'auto'

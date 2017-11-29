@@ -1,6 +1,6 @@
 import React from 'react';
 import Swiper from 'react-native-swiper';
-import { StyleSheet, Text, View, Button, ActivityIndicator, ScrollView } from 'react-native';
+import { StyleSheet, Image, Text, View, ActivityIndicator, ScrollView, TouchableOpacity } from 'react-native';
 import Auth from './Auth';
 
 export class Search extends React.Component {
@@ -14,6 +14,18 @@ export class Search extends React.Component {
     constructor (props)
     {
         super(props);
+        this.search = {
+            platform: {
+                hear: false,
+                see: false,
+                read: false,
+            },
+            time: {
+                three: false,
+                seven: false,
+                fif: false,
+            }
+        };
         this.state = {
             isLoading: false,
             result: false
@@ -33,7 +45,9 @@ export class Search extends React.Component {
     {
         return (
             <ScrollView contentContainerStyle={styles.container}>
-                <Text>How</Text>
+                    <Image
+                        source={require('../assets/headphones.svg')}
+                    />
             </ScrollView>
         );
     }
