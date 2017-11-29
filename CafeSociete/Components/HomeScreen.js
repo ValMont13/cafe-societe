@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Button, ActivityIndicator, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, View, Image, ActivityIndicator, TouchableOpacity, Text, ScrollView } from 'react-native';
 import Auth from './Auth';
 
 export class HomeScreen extends React.Component {
@@ -54,8 +54,12 @@ export class HomeScreen extends React.Component {
         }
 
         return (
-            <View style={styles.container}>
-                <TouchableOpacity activeOpacity={0.8} style={styles.customTouch} onPress={() => this._onPress()}>
+            <ScrollView contentContainerStyle={styles.container}>
+                <Image
+                    style={{width: 200, height: 200}}
+                    source={{ uri: 'http://api.eliastre100.fr/toto.jpg'}}
+                />
+                <TouchableOpacity activeOpacity={0.8} style={styles.customTouch}>
                     <Text style={styles.customTouchText}>Découvrir</Text>
                 </TouchableOpacity>
                 <TouchableOpacity activeOpacity={0.8} style={styles.customTouch} onPress={() => navigate('Search')}>
@@ -64,7 +68,7 @@ export class HomeScreen extends React.Component {
                 <TouchableOpacity activeOpacity={0.8} style={styles.customTouch} onPress={() => navigate('Quizz')}>
                     <Text style={styles.customTouchText}>Quizz</Text>
                 </TouchableOpacity>
-            </View>
+            </ScrollView>
         );
     }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavigationActions } from 'react-navigation'
-import { View, StyleSheet, Text, ScrollView, ActivityIndicator, ListView, Button, Alert } from 'react-native';
+import { View, StyleSheet, Text, ScrollView, ActivityIndicator, ListView, Image, Alert, TouchableOpacity } from 'react-native';
 import Auth from './Auth'
 
 export class Quizz extends React.Component {
@@ -124,15 +124,21 @@ export class Quizz extends React.Component {
     {
         return (
             <ScrollView style={styles.container}>
+                <View style={{alignItems: 'center', paddingTop: '5%'}}>
+                    <Image
+                        style={{width: 200, height: 200}}
+                        source={{ uri: 'http://api.eliastre100.fr/quizz.jpg'}}
+                    />
+                </View>
                 <ListView
                     style={styles.List}
                     dataSource={this.state.dataSource}
                     renderRow={(rowData) =>
                         <View>
-                            <Text style={styles.Row}>
-                                <Text style={styles.Id}>Edition n°{rowData.edition_id}</Text>
-                            </Text>
-                            <Button style={styles.customButton} onPress={() => this.getQuestions(rowData.id)} style={styles.Questions} title={rowData.name}/>
+                            <Text style={styles.Id}>{ ('Edition n°' + rowData.edition_id).toUpperCase() }</Text>
+                            <TouchableOpacity activeOpacity={0.8} style={styles.customTouch} onPress={() => this.getQuestions(rowData.id)}>
+                                <Text style={styles.customTouchText}>{rowData.name}</Text>
+                            </TouchableOpacity>
                         </View>
                     }
                 />
@@ -165,7 +171,9 @@ export class Quizz extends React.Component {
                         dataSource={this.dsAnswer}
                         renderRow={(rowData) =>
                             <View style={styles.Answers}>
-                                <Button title={rowData.value} onPress={() => this.nextQuestion(rowData)}/>
+                                <TouchableOpacity activeOpacity={0.8} style={styles.customAnswer} onPress={() => this.nextQuestion(rowData)}>
+                                    <Text style={styles.customTouchText}>{rowData.value}</Text>
+                                </TouchableOpacity>
                             </View>
                         }
                     />
@@ -195,17 +203,37 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
     },
+    customAnswer: {
+        backgroundColor: '#232e5d',
+        padding: '2%',
+    },
+    customTouch: {
+        backgroundColor: '#232e5d',
+        padding: '4%',
+    },
+    customTouchText: {
+        textAlign: 'center',
+        fontSize: 20,
+        color: 'white',
+    },
     Questions: {
+        color: '#232e5d',
+        padding: '1%',
+        textShadowColor: '#e3dd00',
+        textShadowOffset: {width: 0, height: 1},
+        textShadowRadius: 5,
         fontSize: 25,
+        fontWeight: '700',
         textAlign: 'center',
         marginTop: '5%',
     },
-    Row: {
-        backgroundColor: '#fafafa',
-        padding: '2%',
-    },
     Id: {
+        color: 'white',
+        backgroundColor: '#44a0dd',
+        padding: '2%',
+        textAlign: 'center',
         fontSize: 20,
+        fontWeight: '700',
     },
     List: {
         marginTop: '5%',
