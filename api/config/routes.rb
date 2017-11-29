@@ -19,9 +19,13 @@ Rails.application.routes.draw do
       get 'podcast/:id', to: 'podcast#get'
       get 'podcast/:id/file', to: 'podcast#file'
 
+      get 'video/:id', to: 'video#get'
+      get 'video/:id/file', to: 'video#file'
+
       get 'editions', to: 'edition#index'
       get 'edition/:edition_id/podcasts', to: 'podcast#index'
       get 'edition/:edition_id/quizzs', to: 'quizz#index'
+      get 'edition/:edition_id/videos', to: 'video#index'
 
     end
   end

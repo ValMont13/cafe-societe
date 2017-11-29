@@ -5,7 +5,7 @@ class PodcastController < ApplicationController
   end
 
   def get
-    render json: { podcast: Edition.find_by(id: params[:id]) }, except: :path
+    render json: { podcast: Podcast.find(params[:id]) }, except: :path
   end
 
   def file

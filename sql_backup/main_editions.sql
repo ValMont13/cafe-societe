@@ -1,0 +1,1 @@
+INSERT INTO editions (name, created_at, updated_at) VALUES ('POC', '2017-11-28 21:22:50.430616', '2017-11-28 21:22:50.430616');
