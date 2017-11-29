@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171128150508) do
+ActiveRecord::Schema.define(version: 20171129073518) do
 
   create_table "answers", force: :cascade do |t|
     t.integer "question_id"
@@ -27,6 +27,16 @@ ActiveRecord::Schema.define(version: 20171128150508) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "podcasts", force: :cascade do |t|
+    t.string "name"
+    t.string "path"
+    t.integer "duration"
+    t.integer "edition_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["edition_id"], name: "index_podcasts_on_edition_id"
   end
 
   create_table "questions", force: :cascade do |t|
