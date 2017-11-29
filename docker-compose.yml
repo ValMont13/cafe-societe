@@ -2,9 +2,17 @@ version: '2'
 services:
   api:
     build: ./api
+    image: eliastre100/cafe-societe-api
     ports:
      - "3000:3000"
     volumes:
      - ./api/:/app
     command: bundle exec rails s -p 3000 -b '0.0.0.0'
-
+  appli:
+    build: ./CafeSociete
+    image: eliastre100/cafe-societe-appli
+    ports:
+      - "19000:19000"
+    volumes:
+      - ./CafeSociete:/app
+    command: npm start

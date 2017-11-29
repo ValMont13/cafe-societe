@@ -16,7 +16,13 @@ Rails.application.routes.draw do
 
       post 'edition/:edition_id/quizz/:quizz_id/question', to: 'question#create'
 
+      get 'podcast/:id', to: 'podcast#get'
       get 'podcast/:id/file', to: 'podcast#file'
+
+      get 'editions', to: 'edition#index'
+      get 'edition/:edition_id/podcasts', to: 'podcast#index'
+      get 'edition/:edition_id/quizzs', to: 'quizz#index'
+
     end
   end
 
