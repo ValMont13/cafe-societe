@@ -16,8 +16,10 @@ export class Quizz extends React.Component {
             isLoading: true,
             hasQuizz: false,
             hasQuestions: false,
+            end: false,
         };
         this.score = 0;
+        this.questionId = 0;
         this.questions = null;
         this.getQuizz();
     }
@@ -60,17 +62,14 @@ export class Quizz extends React.Component {
             cache: 'default'
         }).then((response) => response.json())
             .then((responseJson) => {
-                let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+                this.questions = responseJson.questions;
                 this.setState ({
-                    isLoading: false,
                     hasQuizz: false,
                     hasQuestions: true,
-                    dataSource: ds.cloneWithRows(responseJson.questions)
                 });
             }).catch((error) => {
                 console.error("Test : " + error);
                 this.setState ({
-                    isLoading: false,
                     hasQuizz: false,
                     hasQuestions: true,
                     dataSource: 'titi'
@@ -107,21 +106,73 @@ export class Quizz extends React.Component {
         );
     }
 
+    renderEnd()
+    {
+        const { navigate } = this.props.navigation;
+
+        return (
+          <View>
+              <Text style={styles.Questions}>End of the Quizz !</Text>
+              <Text>Score : {this.score}</Text>
+              <Button title='Retour' onPress={() => navigate('Home')}/>
+          </View>
+        );
+    }
+
+    nextQuestion(data)
+    {
+        if (data.solution)
+            this.score += 1;
+        if (this.questionId < this.questions.length)
+            this.questionId += 1;
+        else
+            this.setState ({
+                isLoading: false,
+                hasQuizz: false,
+                hasQuestions: false,
+                end: true,
+            });
+    }
+
+    /*    <ListView
+        dataSource={new ListView.DataSource(
+            {rowHasChanged: (r1, r2) => r1 !== r2}
+                .cloneWithRows(this.questions)
+        )}
+        renderRow={(rowData) =>
+            <View>
+                <Text style={styles.Questions}>{rowData.content}</Text>
+                <ListView
+                    dataSource={new ListView.DataSource(
+                        {rowHasChanged: (r1, r2) => r1 !== r2}
+                            .cloneWithRows(this.questions[this.questionId].responses)
+                    )}
+                    renderRow={(rowData) =>
+                        <View style={styles.Answers}>
+                            <Button title={rowData.value} onPress={() => this.nextQuestion(rowData)}/>
+                        </View>
+                    }
+                />
+            </View>
+        }
+    />*/
+
     renderQuestion()
     {
         return (
             <ScrollView>
-                <ListView
-                    dataSource={this.state.dataSource}
-                    renderRow={(rowData) =>
-                        <View>
-                            <Text style={styles.Questions}>{rowData.content}</Text>
-                                <Button title={rowData.responses[0].value}/>
-                        </View>
-                    }
-                />
+                <Text style={styles.Questions}>Example of Question</Text>
+                <View style={styles.Answers}>
+                    <Button title="Reponse 1" onPress={() => console.log("Test")}/>
+                </View>
+                <View style={styles.Answers}>
+                    <Button title="Reponse 2" onPress={() => console.log("Test")}/>
+                </View>
+                <View style={styles.Answers}>
+                    <Button title="Reponse 3" onPress={() => console.log("Test")}/>
+                </View>
             </ScrollView>
-        )
+        );
     }
 
     render() {
@@ -131,6 +182,8 @@ export class Quizz extends React.Component {
             return this.renderQuizz();
         else if (this.state.hasQuestions)
             return this.renderQuestion();
+        else if (this.state.end)
+            return (this.renderEnd());
         else
             return (
                 <Text style={styles.Questions}>Sorry it's broken :'(</Text>
@@ -158,6 +211,6 @@ const styles = StyleSheet.create({
         padding: '10%",'
     },
     Answers: {
-        marginTop: '5%',
+        margin: '5%',
     }
 });

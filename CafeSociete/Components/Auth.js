@@ -1,4 +1,4 @@
 export default {
-    url: "https://cafesociete.localtunnel.me",
+    url: "https://a2c1d230.ngrok.io",
     token: "",
 }
