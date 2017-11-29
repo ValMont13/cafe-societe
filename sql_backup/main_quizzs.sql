@@ -1,0 +1,1 @@
+INSERT INTO quizzs (name, edition_id, created_at, updated_at) VALUES ('Que savez-vous sur l''ecriture inclusive ?', 1, '2017-11-28 21:24:11.524751', '2017-11-28 21:24:11.524751');

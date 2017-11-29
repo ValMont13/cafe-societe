@@ -1,0 +1,1 @@
+INSERT INTO users (first_name, last_name, email, password_digest) VALUES ('toto', 'titi', 'toto@toto.fr', '$2a$10$Sjh6WjDbnGUQaMor92YQg.KgZ8IwAxE/hOwaEs0yjvlg.G5F01ZS6');
