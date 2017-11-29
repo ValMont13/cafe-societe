@@ -15,7 +15,6 @@ export class Search extends React.Component {
     {
         super(props);
         this.state = {
-            searhingMenu: true,
             isLoading: false,
             result: false
         };
@@ -33,32 +32,35 @@ export class Search extends React.Component {
     renderHow()
     {
         return (
-            <View style={styles.container}>
-                <ScrollView>
-                    <Text>How</Text>
-                </ScrollView>
-            </View>
+            <ScrollView contentContainerStyle={styles.container}>
+                <Text>How</Text>
+            </ScrollView>
         );
     }
 
     renderTime()
     {
         return (
-            <View style={styles.container}>
-                <ScrollView>
-                    <Text>Time</Text>
-                </ScrollView>
-            </View>
+            <ScrollView contentContainerStyle={styles.container}>
+                <Text>Time</Text>
+            </ScrollView>
         );
     }
 
     renderResult()
     {
-        return (
-            <View>
-                <Text>Menu</Text>
-            </View>
-        );
+        if (this.state.result)
+            return (
+                <ScollView style={styles.container}>
+                    <Text>Has results</Text>
+                </ScollView>
+            );
+        else
+            return (
+                <View style={styles.container}>
+                    <Text>No results.</Text>
+                </View>
+            )
     }
 
     render() {
@@ -68,6 +70,7 @@ export class Search extends React.Component {
             <Swiper>
                 { this.renderHow() }
                 { this.renderTime() }
+                { this.renderResult() }
             </Swiper>
         );
         if (this.state.isLoading)

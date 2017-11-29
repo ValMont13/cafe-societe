@@ -47,7 +47,7 @@ export class Quizz extends React.Component {
                 console.error("Test : " + error);
                 this.setState ({
                     isLoading: false,
-                    hasQuizz: true,
+                    hasQuizz: false,
                     dataSource: 'titi'
                 });
             });
