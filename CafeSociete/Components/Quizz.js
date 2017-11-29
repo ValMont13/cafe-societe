@@ -89,14 +89,14 @@ export class Quizz extends React.Component {
     renderQuizz()
     {
         return (
-            <ScrollView>
+            <ScrollView style={styles.container}>
                 <ListView
                     style={styles.List}
                     dataSource={this.state.dataSource}
                     renderRow={(rowData) =>
                         <View>
                             <Text style={styles.Row}>
-                                <Text style={styles.Id}>{rowData.edition_id}</Text>
+                                <Text style={styles.Id}>Edition n°{rowData.edition_id}</Text>
                             </Text>
                             <Button style={styles.customButton} onPress={() => this.getQuestions(rowData.id)} style={styles.Questions} title={rowData.name}/>
                         </View>
@@ -111,7 +111,7 @@ export class Quizz extends React.Component {
         const { navigate } = this.props.navigation;
 
         return (
-          <View>
+          <View style={styles.container}>
               <Text style={styles.Questions}>End of the Quizz !</Text>
               <Text>Score : {this.score}</Text>
               <Button title='Retour' onPress={() => navigate('Home')}/>
@@ -160,16 +160,18 @@ export class Quizz extends React.Component {
     renderQuestion()
     {
         return (
-            <ScrollView>
+            <ScrollView style={styles.container}>
                 <Text style={styles.Questions}>Example of Question</Text>
-                <View style={styles.Answers}>
-                    <Button title="Reponse 1" onPress={() => console.log("Test")}/>
-                </View>
-                <View style={styles.Answers}>
-                    <Button title="Reponse 2" onPress={() => console.log("Test")}/>
-                </View>
-                <View style={styles.Answers}>
-                    <Button title="Reponse 3" onPress={() => console.log("Test")}/>
+                <View style={styles.answerContainer}>
+                    <View style={styles.Answers}>
+                        <Button title="Reponse 1" onPress={() => console.log("Test")}/>
+                    </View>
+                    <View style={styles.Answers}>
+                        <Button title="Reponse 2" onPress={() => console.log("Test")}/>
+                    </View>
+                    <View style={styles.Answers}>
+                        <Button title="Reponse 3" onPress={() => console.log("Test")}/>
+                    </View>
                 </View>
             </ScrollView>
         );
@@ -192,6 +194,10 @@ export class Quizz extends React.Component {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+    },
     Questions: {
         fontSize: 25,
         textAlign: 'center',
@@ -211,6 +217,9 @@ const styles = StyleSheet.create({
         padding: '10%",'
     },
     Answers: {
-        margin: '5%',
+        margin: '6%',
+    },
+    answerContainer: {
+        marginTop: '10%',
     }
 });
