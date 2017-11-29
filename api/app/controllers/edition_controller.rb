@@ -1,5 +1,8 @@
 class EditionController < ApplicationController
 
+  def index
+    render json: { editions: Edition.all }
+  end
 
   def create
     edition = Edition.new(edtion_parameters)
