@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavigationActions } from 'react-navigation'
-import { View, StyleSheet, Text, ScrollView, ActivityIndicator, ListView, Image, Alert, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, ScrollView, ActivityIndicator, ListView, Image, Alert, TouchableOpacity, Button } from 'react-native';
 import Auth from './Auth'
 
 export class Quizz extends React.Component {

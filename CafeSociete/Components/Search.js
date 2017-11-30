@@ -210,26 +210,17 @@ export class Search extends React.Component {
             <ScrollView contentContainerStyle={styles.container}>
                 <TouchableOpacity activeOpacity={0.6} onPress={ () => this.search.time.three = this.toggle(this.search.time.three) }>
                     <View>
-                        <Image
-                            style={{ width: this.search.time.three ? 125 : 100, height: this.search.time.three ? 125 : 100 }}
-                            source={{ uri: 'http://api.eliastre100.fr/toto.jpg'}}
-                        />
+                        <Text style={{ fontSize: this.search.time.three ? 25 : 20, fontWeight: '700', marginTop: '10%' }}>3 MINUTES</Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity activeOpacity={0.6} onPress={ () => this.search.time.seven = this.toggle(this.search.time.seven ) }>
                     <View>
-                        <Image
-                            style={{ width: this.search.time.seven ? 125 : 100, height: this.search.time.seven ? 125 : 100 }}
-                            source={{ uri: 'http://api.eliastre100.fr/toto.jpg'}}
-                        />
+                        <Text style={{ fontSize: this.search.time.seven ? 25 : 20, fontWeight: '700', marginTop: '10%'  }}>7 MINUTES</Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity activeOpacity={0.6} onPress={ () => this.search.time.fif = this.toggle(this.search.time.fif) }>
                     <View>
-                        <Image
-                            style={{ width: this.search.time.fif ? 125 : 100, height: this.search.time.fif ? 125 : 100 }}
-                            source={{ uri: 'http://api.eliastre100.fr/toto.jpg'}}
-                        />
+                        <Text style={{ fontSize: this.search.time.fif ? 25 : 20, fontWeight: '700', marginTop: '10%'  }}>15 MINUTES</Text>
                     </View>
                 </TouchableOpacity>
             </ScrollView>
